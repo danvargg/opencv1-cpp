@@ -8,7 +8,8 @@
 using namespace std;
 using namespace cv;
 
-int main(void){
+int main(void)
+{
 	// Load the Face Image
 	string faceImagePath = DATA_PATH + "/images/musk.jpg";
 
@@ -16,11 +17,11 @@ int main(void){
 	// Load the Sunglass image with Alpha channel
 	// (http://pluspng.com/sunglass-png-1104.html)
 	string glassimagePath = DATA_PATH + "/images/sunglass.png";
-	
+
 	// Read the image
-	Mat glassPNG = imread(glassimagePath,-1);
+	Mat glassPNG = imread(glassimagePath, -1);
 	// Resize the image to fit over the eye region
-	resize(glassPNG,glassPNG, Size(300,100));
+	resize(glassPNG, glassPNG, Size(300, 100));
 
 	cout << "Image Dimension = " << glassPNG.size() << endl;
 	cout << "Number of channels = " << glassPNG.channels();
@@ -30,19 +31,20 @@ int main(void){
 	Mat glassRGBChannels[3];
 	split(glassPNG, glassRGBAChannels);
 
-	for (int i = 0; i < 3; i++){
-	    // Copy R,G,B channel from RGBA to RGB
-	    glassRGBChannels[i] = glassRGBAChannels[i];
+	for (int i = 0; i < 3; i++)
+	{
+		// Copy R,G,B channel from RGBA to RGB
+		glassRGBChannels[i] = glassRGBAChannels[i];
 	}
 
 	Mat glassBGR, glassMask1;
 	// Prepare BGR Image
-	merge(glassRGBChannels,3,glassBGR);
+	merge(glassRGBChannels, 3, glassBGR);
 	// Alpha channel is the 4th channel in RGBA Image
 	glassMask1 = glassRGBAChannels[3];
 
-	imwrite("../results/sunglassRGB.png",glassBGR);
-	imwrite("../results/sunglassAlpha.png",glassMask1);
+	imwrite("../results/sunglassRGB.png", glassBGR);
+	imwrite("../results/sunglassAlpha.png", glassMask1);
 
 	return 0;
 }
